@@ -622,6 +622,8 @@ function _exact_intriangle!(ax::BigInt, ay::BigInt, bx::BigInt, by::BigInt, cx::
     denom = bx*cy - by*cx
 
     sdenom = Int(sign(denom))
+
+
     if Int(sign(nb)) * sdenom < 0
         return -2
     end
@@ -632,6 +634,22 @@ function _exact_intriangle!(ax::BigInt, ay::BigInt, bx::BigInt, by::BigInt, cx::
     sl = Int(sign(l)) * sdenom
     if sl > 0
         return -1
+    end
+
+    #We have a line
+    if sdenom == 0
+        #if we are on the line
+        if nb == 0
+            #if we are in the line segment
+            if ((bx != 0) && ((bx <= px <= cx) || (cx <= px <= bx))) || ((by <= py <= cy) || (cy <= py <= by))
+                #TODO: think about returning something else here...
+                return 5
+            else
+                return -5
+            end
+        else
+            return -5
+        end
     end
 
     if Int(sign(nb)) == 0
